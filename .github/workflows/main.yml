@@ -27,7 +27,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./Shopping.Client
+          file: ./Shopping.Client/Dockerfile
           tags: "${{ vars.DOCKER_USER }}/docker-build-cloud-demo:latest"
           outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry' }}
