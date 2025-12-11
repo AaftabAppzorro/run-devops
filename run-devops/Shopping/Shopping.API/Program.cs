@@ -1,3 +1,5 @@
+using Shopping.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Services
@@ -9,6 +11,9 @@ builder.Services.AddOpenApi();
 //// Swagger ecosystem (for UI)
 //builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ProductContext>();
+
 
 var app = builder.Build();
 
