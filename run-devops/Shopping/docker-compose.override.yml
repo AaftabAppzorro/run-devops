@@ -1,5 +1,9 @@
+version: '3.4'
+
 services:
   shopping.api:
+    networks:
+      - shopping-app-network
     container_name: shoppingapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -10,9 +14,11 @@ services:
       - "8000:80"
 
   shopping.client:
+    networks:
+      - shopping-app-network
     container_name: shoppingclient
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Development 
       - "ShoppingAPIUrl=http://shoppingapi"
     depends_on:
       - shopping.db
@@ -21,9 +27,14 @@ services:
       - "8001:80"
 
   shopping.db:
+    networks:
+      - shopping-app-network
     container_name: shoppingdb
     restart: always
     ports:
       - "27017:27017"
     volumes:
       - ${WEBAPP_STORAGE_HOME}/site:/data/db
+
+networks:
+  shopping-app-network:

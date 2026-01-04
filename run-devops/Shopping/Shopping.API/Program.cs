@@ -9,8 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 //// Swagger ecosystem (for UI)
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ProductContext>();
 
@@ -24,7 +24,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 
     //// Swagger JSON + UI
-    //app.UseSwagger();
+    app.UseSwagger();
+    app.UseSwaggerUI();
     //app.UseSwaggerUI(c =>
     //{
     //    // Tell Swagger UI to read from the OpenAPI endpoint
