@@ -25,9 +25,9 @@ spec:
               value: Development
             - name: DatabaseSettings__ConnectionString
               valueFrom:
-                configMapKeyRef:
-                  name: mongo-configmap
-                  key: connection-string
+                  configMapKeyRef:
+                    name: mongo-configmap
+                    key: connection_string
           resources:
             requests:
               memory: "64Mi"
@@ -41,11 +41,11 @@ kind: Service
 metadata:
   name: shoppingapi-service
 spec:
-  type: NodePort # ADDED FOR TESTING PURPOSE
+  type: NodePort
   selector:
     app: shoppingapi
   ports:
     - protocol: TCP
       port: 8000
       targetPort: 80
-      nodePort: 31000 # ADDED FOR TESTING PURPOSE
+      nodePort: 31000

@@ -1,5 +1,10 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using Shopping.API.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Shopping.API.Data
 {
@@ -11,13 +16,18 @@ namespace Shopping.API.Data
             var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
 
             Products = database.GetCollection<Product>(configuration["DatabaseSettings:CollectionName"]);
-            seedData(Products);
+            SeedData(Products);
         }
 
-        private static void seedData(IMongoCollection<Product> productCollection)
+        public IMongoCollection<Product> Products { get; }
+
+        private static void SeedData(IMongoCollection<Product> productCollection)
         {
-            bool exists = productCollection.Find(p => true).Any();
-            if (!exists) productCollection.InsertManyAsync(GetPreconfiguredProducts());
+            bool existProduct = productCollection.Find(p => true).Any();
+            if (!existProduct)
+            {
+                productCollection.InsertManyAsync(GetPreconfiguredProducts());
+            }
         }
 
         private static IEnumerable<Product> GetPreconfiguredProducts()
@@ -66,15 +76,13 @@ namespace Shopping.API.Data
                 },
                 new Product()
                 {
-                    Name = "LG G7 ThinQ New8",
+                    Name = "LG G7 ThinQ EndofCourse",
                     Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
                     ImageFile = "product-6.png",
                     Price = 240.00M,
                     Category = "Home Kitchen"
                 }
             };
-        }
-
-        public IMongoCollection<Product> Products { get; set; }
+        }        
     }
 }

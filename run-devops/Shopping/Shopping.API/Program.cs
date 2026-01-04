@@ -1,43 +1,26 @@
-using Shopping.API.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// 1. Services
-builder.Services.AddControllers();
-
-// New OpenAPI document generator
-builder.Services.AddOpenApi();
-
-//// Swagger ecosystem (for UI)
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddScoped<ProductContext>();
-
-
-var app = builder.Build();
-
-// 2. Middleware / pipeline
-if (app.Environment.IsDevelopment())
+namespace Shopping.API
 {
-    // OpenAPI JSON at /openapi/v1.json
-    app.MapOpenApi();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-    //// Swagger JSON + UI
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    //app.UseSwaggerUI(c =>
-    //{
-    //    // Tell Swagger UI to read from the OpenAPI endpoint
-    //    c.SwaggerEndpoint("/openapi/v1.json", "Shopping.API v1");
-
-    //    // URL will be: /swagger
-    //    c.RoutePrefix = "swagger";
-    //});
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

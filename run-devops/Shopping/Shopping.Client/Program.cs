@@ -1,30 +1,26 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-// Add services to the container.
-builder.Services.AddHttpClient("ShoppingAPIClient", client =>
+namespace Shopping.Client
 {
-    //client.BaseAddress = new Uri("http://localhost:5000/");
-    client.BaseAddress = new Uri(builder.Configuration["ShoppingAPIURl"]!);
-});
-builder.Services.AddControllersWithViews();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-
-app.Run();
