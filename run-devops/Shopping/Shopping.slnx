@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="docker-compose.dcproj">
-    <Build />
-  </Project>
-  <Project Path="Shopping.API/Shopping.API.csproj" Id="a767e402-e692-4eae-8775-ebda2bcfb0f8" />
-  <Project Path="Shopping.Client/Shopping.Client.csproj" Id="f5cd08f1-0ff9-40b1-a6a4-e802d4d1a8d9" />
-</Solution>
