@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  shopping-api:
+    image: shopping-api:latest
+    container_name: shopping-api
+    build:
+      context: ./src/Shopping.Api
+    ports:
+      - "5001:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  shopping-client:
+    image: shopping-client:latest
+    container_name: shopping-client
+    build:
+      context: ./src/Shopping.Client
+    ports:
+      - "5002:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ShoppingApi__BaseUrl: "http://shopping-api:8080/"
+    depends_on:
+      shopping-api:
+        condition: service_healthy

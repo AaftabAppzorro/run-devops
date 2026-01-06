@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopping-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shopping-client
+  template:
+    metadata:
+      labels:
+        app: shopping-client
+    spec:
+      containers:
+        - name: shopping-client
+          image: aaftabali0001/shoppingclient:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ShoppingApi__BaseUrl
+              value: "http://shopping-api"
